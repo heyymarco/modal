@@ -1,0 +1,95 @@
+@use "../../../node_modules/@heymarco/scss-utils/index" as *;
+@use "../../../node_modules/@heymarco/media-breakpoints/index" as *;
+@use "../../../node_modules/@heymarco/container/index" as *;
+@use "../../../node_modules/@heymarco/colors/index" as *;
+
+
+
+// a custom theme definition for modal's overlay
+@mixin modal-theme-overlay {
+    // blur the background
+    $enable-blur-background: true !default;
+    @if ($enable-blur-background == true) {
+        @include bg-blur-fross-thick;
+    
+        // if browser doesn't support background blur, fallback to darken the background
+        $enable-blur-background-alt: true !default;
+        @if ($enable-blur-background-alt == true) {
+            @supports not (backdrop-filter: blur(5px)) {
+                background-color: change-color(#303030, $alpha: 0.75);
+            }
+        }
+    }
+
+
+
+    $enable-animation: true !default;
+    @if ($enable-animation == true) {
+        /* begin: show animation */
+        &.expand {
+            @include modal-theme-overlay-anim-expand;
+            
+            > article {
+                @include modal-theme-anim-expand;
+            }
+        }
+        /* end: show animation */
+    
+    
+        /* begin: hide animation */
+        &.collapse {
+            @include modal-theme-overlay-anim-collapse;
+            
+            > article {
+                @include modal-theme-anim-collapse;
+            }
+        }
+        /* end: hide animation */
+    }
+}
+
+
+// a custom theme definition for modal's content
+@mixin modal-theme {
+    background: var(--background, var(--white));
+
+    width: min-content; // the width is the minimum required content's space
+    max-height: calc(100vh - (var(--container-y) * 2)); // the height is the page's height minus 2x --container-y
+    overflow: auto; // enable scrollbar
+
+    box-shadow: 0px 0px rems(20/*px*/) rems(5/*px*/) var(--black); // create shadow surrounding the content, so it appears floating
+    border-radius: var(--border-radius, rems(4/*px*/)); // round the corners a bit
+
+    @include media-phone-down { // on phone: increase the default content's (article's) padding
+        --container-x: #{rems(24/*px*/)};
+        --container-y: var(--container-x);
+    }
+
+
+    $modal-border: solid 1px color-darken(0.10) !default;
+    --modal-border: #{$modal-border};
+    border: var(--modal-border);
+
+    > header, footer {
+        $enable-blur-header-footer: true !default;
+        @if ($enable-blur-header-footer == true) {
+            @include bg-blur-fross-light;
+        }
+    }
+    > header {
+        $enable-header-background: true !default;
+        @if ($enable-header-background == true) {
+            background-color: color-fade($black, 0.60, 0.05); // dark theme. 60% dark on the top, then fade out darkness until 5% on the bottom
+        }
+
+        border-bottom: var(--modal-border);
+    }
+    > footer {
+        $enable-footer-background: true !default;
+        @if ($enable-footer-background == true) {
+            background-color: color-fade($black, 0.05, 0.60); // dark theme. 5% dark on the top, then fade in darkness until 60% on the bottom
+        }
+        
+        border-top: var(--modal-border);
+    }
+}

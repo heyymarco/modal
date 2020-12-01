@@ -1,0 +1,102 @@
+
+/* begin: default css variables */
+:root {
+    @include modal-theme-var;
+}
+/* end: default css variables */
+
+
+
+// a custom theme definition for modal's overlay
+@mixin modal-theme-overlay-anim-expand {
+    /* begin: smooth transition from 0% visible to 100% visible */
+    animation: modal-overlay-anim-showing var(--modal-anim-show-duration) ease-in-out both;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-delay: var(--modal-anim-show-delay);
+    opacity: 0;
+    @keyframes modal-overlay-anim-showing {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+    /* end: smooth transition from 0% visible to 100% visible */
+}
+@mixin modal-theme-overlay-anim-collapse {
+    display: unset !important; // prevent the hidden state, so we can show the hidding animation before completely hidden
+
+
+    /* begin: smooth transition from 100% visible to 0% visible */
+    animation: modal-overlay-anim-hidding var(--modal-anim-hide-duration) ease-in-out both;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-delay: var(--modal-anim-hide-delay);
+    @keyframes modal-overlay-anim-hidding {
+        0% {
+            // firstly, animation starts fully opaque:
+            opacity: 1;
+
+
+            // animation starts at visible state:
+            visibility: visible;
+        }
+
+        100% {
+            // then gradually changed to fully hidden and the location slided out to right:
+            opacity: 0;
+
+
+            // animation was completed, now it's time to set completely hidden:
+            visibility: hidden;
+            display: none !important;
+        }
+    }
+    /* end: smooth transition from 100% visible to 0% visible */
+}
+
+@mixin modal-theme-anim-expand {
+    /* begin: popping in animation */
+    animation: modal-anim-showing var(--modal-anim-show-duration) ease-in-out both;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-delay: var(--modal-anim-show-delay);
+    @keyframes modal-anim-showing {
+        0% {
+            transform: var(--modal-content-transf-default) scale(0);
+        }
+
+        70% {
+            transform: var(--modal-content-transf-default) scale(1.1);
+        }
+
+        100% {
+            transform: var(--modal-content-transf-default);
+        }
+    }
+    /* end: popping in animation */
+}
+@mixin modal-theme-anim-collapse {
+    /* begin: popping out animation */
+    animation: modal-anim-hidding var(--modal-anim-hide-duration) ease-in-out both;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-delay: var(--modal-anim-hide-delay);
+    @keyframes modal-anim-hidding {
+        0% {
+            transform: var(--modal-content-transf-default);
+        }
+
+        30% {
+            transform: var(--modal-content-transf-default) scale(1.1);
+        }
+
+        100% {
+            transform: var(--modal-content-transf-default) scale(0);
+        }
+    }
+    /* end: popping out animation */
+}
