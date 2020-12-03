@@ -1,17 +1,9 @@
-//@use "theme" as *;
+@use "../../../node_modules/@heymarco/scss-utils/index" as *;
 
 
 
-/* begin: default css variables */
-@mixin modal-var {
-    $zindex-modal: 1050 !default;
-    $modal-content-transf-default: translate(-50%, -50%) !default;
-
-    --modal-overlay-zindex: #{$zindex-modal};
-    --modal-content-transf-default: #{$modal-content-transf-default};
-}
-:root { @include modal-var; }
-/* end: default css variables */
+$class          : ".modal"   !default;
+$var-prefix     : "modal"    !default;
 
 
 
@@ -24,16 +16,18 @@
     right: 0;
     bottom: 0;
     //width: 100vw; // exceed the scrollbar
-    height: 100vh;
+    height: var(--viewport-height, 100vh);
 
     overflow: hidden;
     outline: 0; // prevent Chrome on Windows from adding a focus outline.
-    z-index: var(--modal-overlay-zindex); // place above all elements
+    z-index: var(--#{$var-prefix}-overlay-zindex); // place above all elements
 
 
     @include modal-theme-overlay; // apply custom styling
 }
-.modal-overlay { @include modal-overlay; }
+@if ($class) {
+    #{$class}-overlay { @include modal-overlay; }
+}
 /* end: a class for styling the blurry background modal */
 
 
@@ -42,7 +36,9 @@
 @mixin modal-open {
     overflow-x: hidden !important; // kill the horizontall scroll on the browser
 }
-body.modal-open { @include modal-open; }
+@if ($class) {
+    body.#{ str-replace($class, ".", "") }#{"-open"} { @include modal-open; }
+}
 /* end: a class for killing the browser's scrollbar when the modal is open */
 
 
@@ -51,7 +47,7 @@ body.modal-open { @include modal-open; }
 @mixin modal {
     &:not(.expand) { display: none; } // default modal state is hidden
 
-    @extend .modal-overlay; // modal with blurry background overlay
+    @extend #{$class}-overlay; // modal with blurry background overlay
     
 
 
@@ -62,11 +58,13 @@ body.modal-open { @include modal-open; }
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: var(--modal-content-transf-default);
+        transform: var(--#{$var-prefix}-content-transf);
 
 
         @include modal-theme; // apply custom styling
     }
 }
-.modal { @include modal; }
+@if ($class) {
+    #{$class} { @include modal; }
+}
 /* end: a class for "popup modal" functionality */

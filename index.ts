@@ -7,11 +7,6 @@ import Element from "@heymarco/element";
  */
 export default class Modal {
     /**
-     * a variable to remember the previous shown modal
-     */
-    static $activeModal : JQuery<HTMLElement> | null = null;
-
-    /**
      * a function to be executed when the element with attribute data-modal="selector" is clicked
      */
     static clickHandler(event : MouseEvent) {
@@ -34,6 +29,13 @@ export default class Modal {
         if ($overlay.is(".modal")) this.setActive(null);
     }
 
+
+
+    /**
+     * a variable to remember the previously shown modal.
+     */
+    static _$activeModal : JQuery<HTMLElement> | null = null;
+
     /**
      * 
      * @param element an element to be shown (can be HTMLElement or selector string or jQuery object).
@@ -50,25 +52,25 @@ export default class Modal {
             .addClass("expand") // adding class .expand causing the element shown and the show animation started
             ;
 
-            this.$activeModal = $element; // remember the shown element, so we can hide it later
+            this._$activeModal = $element; // remember the shown element, so we can hide it later
 
-            Element.body.addClass("modal-open"); // disable the browser's scrollbar when modal is open
+            Element.body.addClass(`${ this._class.replace(".", "") }-open`); // disable the browser's scrollbar when modal is open
         } else {
             // hide the previously shown element (if any):
-            if (this.$activeModal) {
-                this.$activeModal
+            if (this._$activeModal) {
+                this._$activeModal
                 .removeClass("expand") // removing class .expand causing the element hide and the showing animation stopped
                 .addClass("collapse") // adding class .collapse causing the hide animation started
                 ;
             }
 
-            this.$activeModal = null; // forget the shown element, nothing to hide in the future
+            this._$activeModal = null; // forget the shown element, nothing to hide in the future
 
             // re-enable the browser's scrollbar when modal is closed.
             // make sure the scrollbar enabled when the modal's hiding animation was completed.
             // the easiest way (lazy man) is assuming the animation no longer than 1000ms, so it's safe to re-enable it.
             setTimeout(() => {
-                Element.body.removeClass("modal-open");
+                Element.body.removeClass(`${ this._class.replace(".", "") }-open`);
             }, 1000);
         }
     }
@@ -78,13 +80,41 @@ export default class Modal {
      * Equivalent to setActive(null)
      */
     static setInactive() { this.setActive(null); }
+
+
+
+    static _class = "";
+    static get class() : string {
+        return this._class;
+    }
+
+    static _modalClickHandler = (event: JQuery.ClickEvent<HTMLElement, undefined, any, any>) => Modal.clickHandler(event as unknown as MouseEvent);
+    static _modalOverlayClickHandler = (event: JQuery.ClickEvent<HTMLElement, undefined, any, any>) => Modal.overlayClickHandler(event as unknown as MouseEvent);
+    static set class(name : string) {
+        if (this._class == name) return; // if its already the same, nothing to do.
+
+        if (this._class != "") { // detach prev event (if has set)
+            Element.document
+            .off("click", `[data-${ this._class.replace(".", "") }]`, this._modalClickHandler)
+            .off("click", this._class, this._modalOverlayClickHandler)
+            ;
+        }
+
+
+        this._class = name;
+        if (this._class != "") {
+            Element.document
+
+            // watch the click event of all element with attribute data-modal="something" in whole document.
+            // when the element (ex: button) is clicked, the modal should be shown (if data-modal="something") or hidden (if data-modal="").
+            .on("click", `[data-${ this._class.replace(".", "") }]`, this._modalClickHandler)
+
+            // watch the click event of all element with class .modal in whole document.
+            // when the modal's overlay clicked, the modal sholud be hidden.
+            .on("click", this._class, this._modalOverlayClickHandler)
+            ;
+        } // if
+    }
 }
 
-
-// watch the click event of all element with attribute data-modal="something" in whole document.
-// when the element (ex: button) is clicked, the modal should be shown (if data-modal="something") or hidden (if data-modal="").
-Element.document.on("click", "[data-modal]", (event) => Modal.clickHandler(event as unknown as MouseEvent));
-
-// watch the click event of all element with class .modal in whole document.
-// when the modal's overlay clicked, the modal sholud be hidden.
-Element.document.on("click", ".modal", (event) => Modal.overlayClickHandler(event as unknown as MouseEvent));
+Modal.class = ".modal";

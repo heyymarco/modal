@@ -1,21 +1,14 @@
-
-/* begin: default css variables */
-:root {
-    @include modal-theme-var;
-}
-/* end: default css variables */
+$var-prefix                     : "modal"    !default;
 
 
 
-// a custom theme definition for modal's overlay
 @mixin modal-theme-overlay-anim-expand {
     /* begin: smooth transition from 0% visible to 100% visible */
-    animation: modal-overlay-anim-showing var(--modal-anim-show-duration) ease-in-out both;
+    animation: #{$var-prefix}-overlay-anim-showing var(--#{$var-prefix}-anim-show-duration) ease-in-out both;
     animation-iteration-count: 1;
     animation-fill-mode: both;
-    animation-delay: var(--modal-anim-show-delay);
-    opacity: 0;
-    @keyframes modal-overlay-anim-showing {
+    animation-delay: var(--#{$var-prefix}-anim-show-delay);
+    @keyframes #{$var-prefix}-overlay-anim-showing {
         0% {
             opacity: 0;
         }
@@ -31,11 +24,11 @@
 
 
     /* begin: smooth transition from 100% visible to 0% visible */
-    animation: modal-overlay-anim-hidding var(--modal-anim-hide-duration) ease-in-out both;
+    animation: #{$var-prefix}-overlay-anim-hidding var(--#{$var-prefix}-anim-hide-duration) ease-in-out both;
     animation-iteration-count: 1;
     animation-fill-mode: both;
-    animation-delay: var(--modal-anim-hide-delay);
-    @keyframes modal-overlay-anim-hidding {
+    animation-delay: var(--#{$var-prefix}-anim-hide-delay);
+    @keyframes #{$var-prefix}-overlay-anim-hidding {
         0% {
             // firstly, animation starts fully opaque:
             opacity: 1;
@@ -60,42 +53,42 @@
 
 @mixin modal-theme-anim-expand {
     /* begin: popping in animation */
-    animation: modal-anim-showing var(--modal-anim-show-duration) ease-in-out both;
+    animation: #{$var-prefix}-anim-showing var(--#{$var-prefix}-anim-show-duration) ease-in-out both;
     animation-iteration-count: 1;
     animation-fill-mode: both;
-    animation-delay: var(--modal-anim-show-delay);
-    @keyframes modal-anim-showing {
+    animation-delay: var(--#{$var-prefix}-anim-show-delay);
+    @keyframes #{$var-prefix}-anim-showing {
         0% {
-            transform: var(--modal-content-transf-default) scale(0);
+            transform: var(--#{$var-prefix}-content-transf) var(--#{$var-prefix}-anim-show-scale-start);
         }
 
         70% {
-            transform: var(--modal-content-transf-default) scale(1.1);
+            transform: var(--#{$var-prefix}-content-transf) var(--#{$var-prefix}-anim-show-scale-end);
         }
 
         100% {
-            transform: var(--modal-content-transf-default);
+            transform: var(--#{$var-prefix}-content-transf);
         }
     }
     /* end: popping in animation */
 }
 @mixin modal-theme-anim-collapse {
     /* begin: popping out animation */
-    animation: modal-anim-hidding var(--modal-anim-hide-duration) ease-in-out both;
+    animation: #{$var-prefix}-anim-hidding var(--#{$var-prefix}-anim-hide-duration) ease-in-out both;
     animation-iteration-count: 1;
     animation-fill-mode: both;
-    animation-delay: var(--modal-anim-hide-delay);
-    @keyframes modal-anim-hidding {
+    animation-delay: var(--#{$var-prefix}-anim-hide-delay);
+    @keyframes #{$var-prefix}-anim-hidding {
         0% {
-            transform: var(--modal-content-transf-default);
+            transform: var(--#{$var-prefix}-content-transf);
         }
 
         30% {
-            transform: var(--modal-content-transf-default) scale(1.1);
+            transform: var(--#{$var-prefix}-content-transf) var(--#{$var-prefix}-anim-hide-scale-start);
         }
 
         100% {
-            transform: var(--modal-content-transf-default) scale(0);
+            transform: var(--#{$var-prefix}-content-transf) var(--#{$var-prefix}-anim-hide-scale-end);
         }
     }
     /* end: popping out animation */

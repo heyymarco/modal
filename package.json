@@ -23,11 +23,11 @@
   },
   "homepage": "https://heymarco.me/web/modal-popup-css3/",
   "dependencies": {
-    "@heymarco/colors": "^1.0.1",
-    "@heymarco/container": "^1.0.5",
+    "@heymarco/card": "^1.0.2",
+    "@heymarco/colors": "^1.0.2",
+    "@heymarco/container": "^1.0.6",
     "@heymarco/element": "^1.0.0",
-    "@heymarco/media-breakpoints": "^1.0.1",
-    "@heymarco/scss-utils": "^1.0.1",
+    "@heymarco/scss-utils": "^1.0.2",
     "jquery": "^3.5.1"
   },
   "devDependencies": {}

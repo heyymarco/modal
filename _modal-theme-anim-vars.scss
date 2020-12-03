@@ -1,0 +1,31 @@
+$var-root           : ":root"       !default;
+$var-prefix         : "modal"       !default;
+
+// set how fast the popping-in animation:
+$show-delay         : 0ms           !default;
+$show-duration      : 300ms         !default;
+$show-scale-start   : scale(0)      !default;
+$show-scale-end     : scale(1.1)    !default;
+
+// set how fast the popping-out animation:
+$hide-delay         : 0ms           !default;
+$hide-duration      : 500ms         !default;
+$hide-scale-start   : scale(1.1)    !default;
+$hide-scale-end     : scale(0)      !default;
+
+
+
+@mixin modal-theme-anim-vars {
+    --#{$var-prefix}-anim-show-delay: #{$show-delay};
+    --#{$var-prefix}-anim-show-duration: #{$show-duration};
+    --#{$var-prefix}-anim-show-scale-start: #{$show-scale-start};
+    --#{$var-prefix}-anim-show-scale-end: #{$show-scale-end};
+    
+    --#{$var-prefix}-anim-hide-delay: #{$hide-delay};
+    --#{$var-prefix}-anim-hide-duration: #{$hide-duration};
+    --#{$var-prefix}-anim-hide-scale-start: #{$hide-scale-start};
+    --#{$var-prefix}-anim-hide-scale-end: #{$hide-scale-end};
+}
+@if ($var-root) {
+    #{$var-root} { @include modal-theme-anim-vars; }
+}
