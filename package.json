@@ -1,6 +1,6 @@
 {
   "name": "@heymarco/modal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a class for making \"modal popup\" functionallity.",
   "main": "index.js",
   "scripts": {
