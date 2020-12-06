@@ -1,8 +1,14 @@
-@import "modal-theme-anim-vars";
-@import "modal-theme-anim";
+@use "modal-theme-anim" as modal-theme-anim;
+// with(
+//     // -- modal's theme animation config here --
+// )
 
-@import "modal-theme-vars";
-@import "modal-theme";
 
-@import "modal-vars";
+@use "modal-theme" as modal-theme;
+// with(
+//     // -- modal's theme config here --
+// )
+
+
+// -- modal's config here --
 @import "modal";

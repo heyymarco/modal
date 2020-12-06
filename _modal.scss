@@ -1,13 +1,37 @@
-@use "../../../node_modules/@heymarco/scss-utils/index" as *;
+$class              : ".modal"      !default;
+$var-root           : ":root"       !default;
+$var-prefix         : "modal"       !default;
+$cssvar: "";
+@if (($var-prefix == null) or ($var-prefix == "")) {
+    $cssvar: "--";
+} @else {
+    $cssvar: "--#{$var-prefix}-";
+}
+
+$overlay-zindex     : 1050          !default;
 
 
 
-$class          : ".modal"   !default;
-$var-prefix     : "modal"    !default;
+@mixin cssvar {
+    #{$cssvar}overlay-zindex: #{$overlay-zindex};
+}
+@if ($var-root) {
+    #{$var-root} { @include cssvar; }
+}
 
 
 
-/* begin: a class for styling the blurry background modal */
+/// a style definition for killing the browser's scrollbar when the modal is open.
+@mixin modal-open {
+    overflow-x: hidden !important; // kill the horizontall scroll on the browser
+}
+@if ($var-prefix and ($var-prefix != "")) {
+    body.#{$var-prefix}-open { @include modal-open; }
+}
+
+
+
+/// a basic style definition for the modal's background.
 @mixin modal-overlay {
     // default styling is cover the whole browser's screen
     position: fixed;
@@ -20,51 +44,68 @@ $var-prefix     : "modal"    !default;
 
     overflow: hidden;
     outline: 0; // prevent Chrome on Windows from adding a focus outline.
-    z-index: var(--#{$var-prefix}-overlay-zindex); // place above all elements
+    z-index: var(#{$cssvar}overlay-zindex); // place above all elements
+
+    // places the modal's content at the center:
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
 
-    @include modal-theme-overlay; // apply custom styling
+    @include modal-theme.overlay; // apply custom styling
 }
-@if ($class) {
-    #{$class}-overlay { @include modal-overlay; }
+
+
+/// a basic style definition for the modal's content.
+@mixin modal-content {
+    position: relative;
+
+
+    @include modal-theme.content; // apply custom styling
 }
-/* end: a class for styling the blurry background modal */
 
 
 
-/* begin: a class for killing the browser's scrollbar when the modal is open */
-@mixin modal-open {
-    overflow-x: hidden !important; // kill the horizontall scroll on the browser
-}
-@if ($class) {
-    body.#{ str-replace($class, ".", "") }#{"-open"} { @include modal-open; }
-}
-/* end: a class for killing the browser's scrollbar when the modal is open */
-
-
-
-/* begin: a class for "popup modal" functionality */
+/// a class for "popup modal" functionality.
 @mixin modal {
     &:not(.expand) { display: none; } // default modal state is hidden
-
-    @extend #{$class}-overlay; // modal with blurry background overlay
     
+    @include modal-overlay; // defines the modal's background
+
 
 
     // the content of the modal is an article element.
     // it may having additional header & footer.
     > article, .article {
-        // default styling is located at the center:
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: var(--#{$var-prefix}-content-transf);
-
-
-        @include modal-theme; // apply custom styling
+        @include modal-content; // defines the modal's content
     }
+
+
+
+    /* begin: animations */
+    /* begin: show animation */
+    &.expand {
+        @include modal-theme-anim.overlay-expand;
+        
+        > article {
+            @include modal-theme-anim.expand;
+        }
+    }
+    /* end: show animation */
+
+
+    /* begin: hide animation */
+    &.collapse {
+        @include modal-theme-anim.overlay-collapse;
+        
+        > article {
+            @include modal-theme-anim.collapse;
+        }
+    }
+    /* end: hide animation */
+    /* end: animations */
 }
 @if ($class) {
     #{$class} { @include modal; }
 }
-/* end: a class for "popup modal" functionality */

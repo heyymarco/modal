@@ -1,6 +1,6 @@
 {
   "name": "@heymarco/modal",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a class for making \"modal popup\" functionallity.",
   "main": "index.js",
   "scripts": {
@@ -23,11 +23,11 @@
   },
   "homepage": "https://heymarco.me/web/modal-popup-css3/",
   "dependencies": {
-    "@heymarco/card": "^1.0.2",
-    "@heymarco/colors": "^1.0.2",
-    "@heymarco/container": "^1.0.6",
+    "@heymarco/card": "^1.0.3",
+    "@heymarco/colors": "^1.0.7",
+    "@heymarco/container": "^1.0.10",
     "@heymarco/element": "^1.0.0",
-    "@heymarco/scss-utils": "^1.0.2",
+    "@heymarco/scss-utils": "^1.0.3",
     "jquery": "^3.5.1"
   },
   "devDependencies": {}
