@@ -33,7 +33,7 @@ $overlay-zindex     : 1050          !default;
 
 /// a basic style definition for the modal's background.
 @mixin modal-overlay {
-    // default styling is cover the whole browser's screen
+    // structures: default styling is cover the whole browser's screen
     position: fixed;
     left: 0;
     top: 0;
@@ -41,19 +41,20 @@ $overlay-zindex     : 1050          !default;
     bottom: 0;
     //width: 100vw; // exceed the scrollbar
     height: var(--viewport-height, 100vh);
-
-    overflow: hidden;
-    outline: 0; // prevent Chrome on Windows from adding a focus outline.
     z-index: var(#{$cssvar}overlay-zindex); // place above all elements
 
-    // places the modal's content at the center:
+    // borders:
+    outline: 0; // prevent Chrome on Windows from adding a focus outline.
+    overflow: hidden;
+
+    // flex properties: places the modal's content at the center:
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 
 
-    @include modal-theme.overlay; // apply custom styling
+    @include theme.overlay; // apply custom styling
 }
 
 
@@ -62,7 +63,7 @@ $overlay-zindex     : 1050          !default;
     position: relative;
 
 
-    @include modal-theme.content; // apply custom styling
+    @include theme.content; // apply custom styling
 }
 
 
@@ -86,10 +87,10 @@ $overlay-zindex     : 1050          !default;
     /* begin: animations */
     /* begin: show animation */
     &.expand {
-        @include modal-theme-anim.overlay-expand;
+        @include theme.overlay-expand;
         
         > article {
-            @include modal-theme-anim.expand;
+            @include theme.content-expand;
         }
     }
     /* end: show animation */
@@ -97,10 +98,10 @@ $overlay-zindex     : 1050          !default;
 
     /* begin: hide animation */
     &.collapse {
-        @include modal-theme-anim.overlay-collapse;
+        @include theme.overlay-collapse;
         
         > article {
-            @include modal-theme-anim.collapse;
+            @include theme.content-collapse;
         }
     }
     /* end: hide animation */

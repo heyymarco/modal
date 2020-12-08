@@ -1,14 +1,9 @@
-@use "modal-theme-anim" as modal-theme-anim;
-// with(
-//     // -- modal's theme animation config here --
-// )
-
-
-@use "modal-theme" as modal-theme;
+@use "theme" as theme;
 // with(
 //     // -- modal's theme config here --
 // )
 
+@use "dependencies" as *;
 
 // -- modal's config here --
 @import "modal";
