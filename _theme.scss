@@ -45,7 +45,7 @@ $hide-scale-end             : scale(0)      !default;
 
 
 
-@mixin cssvar {
+@if ($var-root) { #{$var-root} {
     #{$cssvar}width             : #{$width};
     #{$cssvar}height            : #{$height};
     #{$cssvar}max-width         : #{$max-width};
@@ -61,10 +61,7 @@ $hide-scale-end             : scale(0)      !default;
     #{$cssvar}hide-duration     : #{$hide-duration};
     #{$cssvar}hide-scale-start  : #{$hide-scale-start};
     #{$cssvar}hide-scale-end    : #{$hide-scale-end};
-}
-@if ($var-root) {
-    #{$var-root} { @include cssvar; }
-}
+}}
 
 
 
@@ -88,10 +85,12 @@ $hide-scale-end             : scale(0)      !default;
 /// a theme definition for the modal's background when expanded.
 @mixin overlay-expand {
     /* begin: smooth transition from 0% visible to 100% visible */
-    animation: #{$var-prefix}-overlay-expand var(#{$cssvar}show-duration) ease-in-out both;
-    animation-iteration-count: 1;
-    animation-fill-mode: both;
-    animation-delay: var(#{$cssvar}show-delay);
+    animation-duration          : var(#{$cssvar}show-duration);
+    animation-timing-function   : ease-in-out;
+    animation-delay             : var(#{$cssvar}show-delay);
+    animation-iteration-count   : 1;
+    animation-fill-mode         : both;
+    animation-name              : #{$var-prefix}-overlay-expand;
     @keyframes #{$var-prefix}-overlay-expand {
         0% {
             opacity: 0;
@@ -110,10 +109,12 @@ $hide-scale-end             : scale(0)      !default;
 
 
     /* begin: smooth transition from 100% visible to 0% visible */
-    animation: #{$var-prefix}-overlay-collapse var(#{$cssvar}hide-duration) ease-in-out both;
-    animation-iteration-count: 1;
-    animation-fill-mode: both;
-    animation-delay: var(#{$cssvar}hide-delay);
+    animation-duration          : var(#{$cssvar}hide-duration);
+    animation-timing-function   : ease-in-out;
+    animation-delay             : var(#{$cssvar}hide-delay);
+    animation-iteration-count   : 1;
+    animation-fill-mode         : both;
+    animation-name              : #{$var-prefix}-overlay-collapse;
     @keyframes #{$var-prefix}-overlay-collapse {
         0% {
             // firstly, animation starts fully opaque:
@@ -165,10 +166,12 @@ $hide-scale-end             : scale(0)      !default;
 /// a theme definition for the modal's content when expanded.
 @mixin content-expand {
     /* begin: popping in animation */
-    animation: #{$var-prefix}-expand var(#{$cssvar}show-duration) ease-in-out both;
-    animation-iteration-count: 1;
-    animation-fill-mode: both;
-    animation-delay: var(#{$cssvar}show-delay);
+    animation-duration          : var(#{$cssvar}show-duration);
+    animation-timing-function   : ease-in-out;
+    animation-delay             : var(#{$cssvar}show-delay);
+    animation-iteration-count   : 1;
+    animation-fill-mode         : both;
+    animation-name              : #{$var-prefix}-expand;
     @keyframes #{$var-prefix}-expand {
         0% {
             transform: var(#{$cssvar}show-scale-start);
@@ -188,10 +191,12 @@ $hide-scale-end             : scale(0)      !default;
 /// a theme definition for the modal's content when collapsed.
 @mixin content-collapse {
     /* begin: popping out animation */
-    animation: #{$var-prefix}-collapse var(#{$cssvar}hide-duration) ease-in-out both;
-    animation-iteration-count: 1;
-    animation-fill-mode: both;
-    animation-delay: var(#{$cssvar}hide-delay);
+    animation-duration          : var(#{$cssvar}hide-duration);
+    animation-timing-function   : ease-in-out;
+    animation-delay             : var(#{$cssvar}hide-delay);
+    animation-iteration-count   : 1;
+    animation-fill-mode         : both;
+    animation-name              : #{$var-prefix}-collapse;
     @keyframes #{$var-prefix}-collapse {
         0% {
             transform: unset;

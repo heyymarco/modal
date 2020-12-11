@@ -89,8 +89,8 @@ export default class Modal {
         return this._class;
     }
 
-    static _modalClickHandler = (event: JQuery.ClickEvent<HTMLElement, undefined, any, any>) => Modal.clickHandler(event as unknown as MouseEvent);
-    static _modalOverlayClickHandler = (event: JQuery.ClickEvent<HTMLElement, undefined, any, any>) => Modal.overlayClickHandler(event as unknown as MouseEvent);
+    static _clickHandler = (event: JQuery.ClickEvent<HTMLElement, undefined, any, any>) => Modal.clickHandler(event as unknown as MouseEvent);
+    static _overlayClickHandler = (event: JQuery.ClickEvent<HTMLElement, undefined, any, any>) => Modal.overlayClickHandler(event as unknown as MouseEvent);
     /**
      * Customize the ".modal" class name.
      */
@@ -99,8 +99,8 @@ export default class Modal {
 
         if (this._class != "") { // detach prev event (if has set)
             Element.document
-            .off("click", `[data-${this.varPrefix}]`, this._modalClickHandler)
-            .off("click", this.class, this._modalOverlayClickHandler)
+            .off("click", `[data-${this.varPrefix}]`, this._clickHandler)
+            .off("click", this.class, this._overlayClickHandler)
             ;
         }
 
@@ -112,11 +112,11 @@ export default class Modal {
 
             // watch the click event of all element with attribute data-modal="something" in whole document.
             // when the element (ex: button) is clicked, the modal should be shown (if data-modal="something") or hidden (if data-modal="").
-            .on("click", `[data-${this.varPrefix}]`, this._modalClickHandler)
+            .on("click", `[data-${this.varPrefix}]`, this._clickHandler)
 
             // watch the click event of all element with class .modal in whole document.
             // when the modal's overlay clicked, the modal sholud be hidden.
-            .on("click", this.class, this._modalOverlayClickHandler)
+            .on("click", this.class, this._overlayClickHandler)
             ;
         } // if
     }

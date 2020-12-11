@@ -12,12 +12,9 @@ $overlay-zindex     : 1050          !default;
 
 
 
-@mixin cssvar {
+@if ($var-root) { #{$var-root} {
     #{$cssvar}overlay-zindex: #{$overlay-zindex};
-}
-@if ($var-root) {
-    #{$var-root} { @include cssvar; }
-}
+}}
 
 
 
