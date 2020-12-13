@@ -1,12 +1,12 @@
 // development:
 // @use "node_modules/@heymarco/scss-utils/index" as *;
-// @use "node_modules/@heymarco/colors/index" as color;
+// @use "node_modules/@heymarco/colors/index" as col;
 // @use "node_modules/@heymarco/container/index" as container;
 // @use "node_modules/@heymarco/card/index" as card;
 
 // production:
 @use "../../../node_modules/@heymarco/scss-utils/index" as *;
-@use "../../../node_modules/@heymarco/colors/index" as color;
+@use "../../../node_modules/@heymarco/colors/index" as col;
 @use "../../../node_modules/@heymarco/container/index" as container;
 @use "../../../node_modules/@heymarco/card/index" as card;
 
@@ -29,7 +29,7 @@ $width                      : max-content                                       
 $height                     : unset                                                                     !default;                            
 $max-width                  : calc(100vw - (var(#{container.$cssvar}x) * 2))                            !default; // the max-width is the page's width minus 2x --container-x
 $max-height                 : calc(var(--viewport-height, 100vh) - (var(#{container.$cssvar}y) * 2))    !default; // the max-height is the page's height minus 2x --container-y
-$shadow                     : 0px 0px #{rems(24/*px*/)} 0 var(#{color.$cssvar}black)                    !default; // create shadow surrounding the content, so it appears floating
+$shadow                     : 0px 0px #{rems(24/*px*/)} 0 var(#{col.$cssvar}black)                      !default; // create shadow surrounding the content, so it appears floating
 
 // set how fast the popping-in animation:
 $show-delay                 : 0ms           !default;
@@ -71,7 +71,7 @@ $hide-scale-end             : scale(0)      !default;
     // TODO: sorry I still use `sass variable` to modify the background.
     // configurable via `css variable` might coming soon.
     @if ($enable-blur-background == true) {
-        @include color.bg-blur-fross-thick;
+        @include col.bg-blur-fross-thick;
     
         // if browser doesn't support background blur, fallback to darken the background
         @if ($enable-blur-background-alt == true) {
